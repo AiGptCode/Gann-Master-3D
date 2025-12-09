@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gann Master 3D: Crypto Dynamics System V6.0</title>
+    <style>
+        :root{--bg-gradient-start:#0a0a0f;--bg-gradient-end:#1a1a2e;--glass-bg:rgba(255,255,255,0.05);--glass-border:rgba(255,255,255,0.1);--text-color:#e0e0e0;--accent-cyan:#00f5ff;--accent-purple:#b968ff;--accent-green:#4caf50;--accent-red:#ff4757;--accent-orange:#ffa502;--glow-cyan:rgba(0,245,255,0.5);--glow-purple:rgba(185,104,255,0.5)}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(135deg,var(--bg-gradient-start) 0%,var(--bg-gradient-end) 100%);color:var(--text-color);height:100vh;overflow:hidden;position:relative}#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.3}.app-container{position:relative;z-index:1;display:flex;height:100vh;overflow:hidden}.sidebar{width:380px;background:var(--glass-bg);backdrop-filter:blur(20px);border-right:1px solid var(--glass-border);padding:20px;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.3)}.sidebar::-webkit-scrollbar{width:6px}.sidebar::-webkit-scrollbar-track{background:rgba(255,255,255,0.05);border-radius:10px}.sidebar::-webkit-scrollbar-thumb{background:var(--accent-cyan);border-radius:10px}.logo{font-weight:800;font-size:1.3rem;background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin-bottom:25px;padding:15px;border:1px solid var(--glass-border);border-radius:15px;animation:glow-pulse 3s ease-in-out infinite}@keyframes glow-pulse{0%,100%{box-shadow:0 0 20px var(--glow-cyan)}50%{box-shadow:0 0 40px var(--glow-purple)}}.glass-card{background:var(--glass-bg);backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:15px;padding:15px;margin-bottom:15px;transition:all 0.3s ease}.glass-card:hover{background:rgba(255,255,255,0.08);border-color:var(--accent-cyan);transform:translateY(-2px)}.glass-card label{display:block;font-size:0.85rem;font-weight:600;color:var(--accent-cyan);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}.glass-card select{width:100%;padding:10px 15px;background:rgba(0,0,0,0.4);border:1px solid var(--glass-border);border-radius:10px;color:var(--text-color);font-size:0.9rem;transition:all 0.3s ease;cursor:pointer}.glass-card select:focus{outline:none;border-color:var(--accent-cyan);box-shadow:0 0 15px var(--glow-cyan)}.live-panel{background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(185,104,255,0.1));backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:20px;padding:20px;margin-bottom:15px;text-align:center}.price-label{font-size:0.85rem;color:#aaa;margin-bottom:5px}.price-display{font-size:2.5rem;font-weight:900;background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:10px 0;animation:price-glow 2s ease-in-out infinite}@keyframes price-glow{0%,100%{filter:drop-shadow(0 0 10px var(--glow-cyan))}50%{filter:drop-shadow(0 0 20px var(--glow-purple))}}.gann-data{font-size:0.9rem;color:var(--accent-cyan);margin-top:10px;font-weight:600}.info-section{padding:12px 0;border-top:1px solid rgba(255,255,255,0.1);margin-top:10px}.info-section label{font-size:0.9rem;color:var(--accent-purple);font-weight:700;display:block;margin-bottom:10px}.info-line{display:flex;justify-content:space-between;margin-bottom:8px;font-size:0.85rem;padding:5px 0}.info-line span:first-child{color:#aaa}.tp-long{color:var(--accent-green);font-weight:700}.tp-short{color:var(--accent-orange);font-weight:700}.tp-major{color:var(--accent-red);font-weight:700}.percent-up{color:var(--accent-green);font-size:0.75rem;margin-left:5px}.percent-down{color:var(--accent-orange);font-size:0.75rem;margin-left:5px}.badge{display:inline-block;padding:4px 10px;border-radius:8px;font-size:0.75rem;font-weight:700;text-transform:uppercase}.badge-buy{background:var(--accent-green);color:#000}.badge-sell{background:var(--accent-red);color:#fff}.badge-neutral{background:rgba(255,255,255,0.2);color:#fff}.main-view{flex:1;position:relative;display:flex;justify-content:center;align-items:center;overflow:hidden}#three-canvas{width:100%;height:100%}.controls-overlay{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:15px;z-index:10}.control-btn{background:var(--glass-bg);backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:12px;padding:12px 20px;color:var(--text-color);font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.3s ease}.control-btn:hover{background:rgba(255,255,255,0.15);border-color:var(--accent-cyan);box-shadow:0 0 20px var(--glow-cyan);transform:translateY(-2px)}.control-btn.active{background:var(--accent-cyan);color:#000}.ticker-status{font-size:0.75rem;text-align:center;margin-top:15px;padding:8px;border-radius:10px;background:rgba(0,0,0,0.3)}@media (max-width:1024px){.app-container{flex-direction:column}.sidebar{width:100%;max-height:40vh;border-right:none;border-bottom:1px solid var(--glass-border)}.main-view{height:60vh}}.loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}.spinner{width:60px;height:60px;border:4px solid rgba(255,255,255,0.1);border-top:4px solid var(--accent-cyan);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 15px}@keyframes spin{to{transform:rotate(360deg)}}.mtf-grid{display:grid;grid-template-columns:auto 1fr;gap:8px;font-size:0.8rem}.mtf-label{font-weight:700;color:var(--accent-cyan)}.mtf-bullish{color:var(--accent-green)}.mtf-bearish{color:var(--accent-red)}.mtf-neutral{color:#888}
+    </style>
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo">📐 GANN MASTER 3D V6.0 🎯</div>
+            <div class="glass-card">
+                <label>Asset Selection</label>
+                <select id="symbolSelect">
+                    <option value="BTCUSDT">BTC/USDT (Bitcoin)</option>
+                    <option value="ETHUSDT">ETH/USDT (Ethereum)</option>
+                    <option value="BNBUSDT">BNB/USDT (BNB)</option>
+                </select>
+            </div>
+            <div class="glass-card">
+                <label>Timeframe</label>
+                <select id="timeframeSelect">
+                    <option value="1m">1 Minute</option>
+                    <option value="1h">1 Hour</option>
+                    <option value="4h" selected>4 Hour</option>
+                    <option value="1d">1 Day</option>
+                </select>
+            </div>
+            <div class="live-panel">
+                <div class="price-label" id="currentSymbolDisplay">BTC/USDT Live Price</div>
+                <div class="price-display" id="priceDisplay">Loading...</div>
+                <div class="gann-data" id="gannMathInfo">Degree: -- | Root: --</div>
+            </div>
+            <div class="glass-card">
+                <div class="info-section">
+                    <label>Gann Targets - <span id="activeTimeframeDisplay">4H</span></label>
+                    <div class="info-line tp-long">
+                        <span>LONG 90°:</span>
+                        <span><span id="tpLong90">--</span><span id="pLong90" class="percent-up"></span></span>
+                    </div>
+                    <div class="info-line tp-long">
+                        <span>LONG 180°:</span>
+                        <span><span id="tpLong180">--</span><span id="pLong180" class="percent-up"></span></span>
+                    </div>
+                    <div class="info-line tp-major">
+                        <span>LONG 270°:</span>
+                        <span><span id="tpLong270">--</span><span id="pLong270" class="percent-up"></span></span>
+                    </div>
+                    <div class="info-line tp-short">
+                        <span>SHORT 90°:</span>
+                        <span><span id="tpShort90">--</span><span id="pShort90" class="percent-down"></span></span>
+                    </div>
+                    <div class="info-line tp-short">
+                        <span>SHORT 180°:</span>
+                        <span><span id="tpShort180">--</span><span id="pShort180" class="percent-down"></span></span>
+                    </div>
+                    <div class="info-line tp-major">
+                        <span>SHORT 270°:</span>
+                        <span><span id="tpShort270">--</span><span id="pShort270" class="percent-down"></span></span>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <label>Momentum Indicators</label>
+                    <div class="info-line">
+                        <span>RSI (14):</span>
+                        <span><span id="rsiValue">--</span> <span id="rsiSignal" class="badge badge-neutral">--</span></span>
+                    </div>
+                    <div class="info-line">
+                        <span>MACD:</span>
+                        <span id="macdLine">--</span>
+                    </div>
+                    <div class="info-line">
+                        <span>CCI (20):</span>
+                        <span id="cciValue">--</span>
+                    </div>
+                    <div class="info-line">
+                        <span>AO:</span>
+                        <span id="aoValue">--</span>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <label>Volatility & Trend</label>
+                    <div class="info-line">
+                        <span>Bollinger Bands:</span>
+                        <span><span id="bbSignal" class="badge badge-neutral">--</span></span>
+                    </div>
+                    <div class="info-line">
+                        <span>ADX (14):</span>
+                        <span id="adxValue">--</span>
+                    </div>
+                    <div class="info-line">
+                        <span>Ichimoku Cloud:</span>
+                        <span id="ichimokuSignal">--</span>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <label>Volume Dynamics</label>
+                    <div class="info-line">
+                        <span>OBV:</span>
+                        <span id="obvValue">--</span>
+                    </div>
+                    <div class="info-line">
+                        <span>Chaikin Money Flow:</span>
+                        <span id="cmfValue">--</span>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <label>Risk Management</label>
+                    <div class="info-line">
+                        <span>ATR (14):</span>
+                        <span id="atrValue">--</span>
+                    </div>
+                    <div class="info-line tp-long">
+                        <span>LONG SL:</span>
+                        <span id="slLong">--</span>
+                    </div>
+                    <div class="info-line tp-short">
+                        <span>SHORT SL:</span>
+                        <span id="slShort">--</span>
+                    </div>
+                    <div class="info-line">
+                        <span>R:R Long:</span>
+                        <span id="rrLong">--</span>
+                    </div>
+                    <div class="info-line">
+                        <span>R:R Short:</span>
+                        <span id="rrShort">--</span>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <label>MTF Analysis</label>
+                    <div class="mtf-grid">
+                        <span class="mtf-label">1H:</span>
+                        <span id="mtf1h">--</span>
+                        <span class="mtf-label">4H:</span>
+                        <span id="mtf4h">--</span>
+                        <span class="mtf-label">1D:</span>
+                        <span id="mtf1d">--</span>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <label>Predictive Abilities</label>
+                    <div class="info-line">
+                        <span>Gann Fan Proj:</span>
+                        <button class="control-btn" id="gannFanBtn" style="padding:6px 10px">Enable</button>
+                    </div>
+                    <div class="info-line">
+                        <span>Fib Time Zone:</span>
+                        <button class="control-btn" id="fibTimeBtn" style="padding:6px 10px">Calculate</button>
+                    </div>
+                    <div class="info-line">
+                        <span>Fractal Energy:</span>
+                        <span id="fractalEnergyValue">--</span>
+                    </div>
+                </div>
+                <div class="ticker-status" id="connectionStatus">Connecting...</div>
+            </div>
+            <div class="glass-card">
+                <label>Gann Scale</label>
+                <select id="scaleSelect">
+                    <option value="10">10</option>
+                    <option value="100" selected>100</option>
+                    <option value="1000">1000</option>
+                </select>
+            </div>
+        </div>
+        <div class="main-view">
+            <div class="loading" id="loadingScreen">
+                <div class="spinner"></div>
+                <div>Initializing 3D Engine...</div>
+            </div>
+            <canvas id="three-canvas"></canvas>
+            <div class="controls-overlay">
+                <button class="control-btn active" id="rotateBtn">🔄 Auto Rotate</button>
+                <button class="control-btn" id="geometryBtn">📐 Show Angles</button>
+                <button class="control-btn" id="resetBtn">⟲ Reset View</button>
+                <button class="control-btn active" id="viewModeBtn">🌐 3D View</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const CONFIG = {
+            RSI_PERIOD: 14,
+            ATR_PERIOD: 14,
+            ATR_MULTIPLIER: 2,
+            MACD_FAST: 12,
+            MACD_SLOW: 26,
+            MACD_SIGNAL: 9,
+            CCI_PERIOD: 20,
+            AO_FAST: 5,
+            AO_SLOW: 34,
+            BB_PERIOD: 20,
+            BB_DEVS: 2,
+            BINANCE_WS_URL: 'wss://stream.binance.com:9443/ws/',
+            TIME_FRAMES: {
+                '1m': { historySize: 100, interval: 60 },
+                '1h': { historySize: 200, interval: 3600 },
+                '4h': { historySize: 200, interval: 14400 },
+                '1d': { historySize: 365, interval: 86400 }
+            }
+        };
+
+        let state = {
+            currentPrice: 0,
+            currentSymbol: 'BTCUSDT',
+            activeTimeframe: '4h',
+            priceScale: 100,
+            ws: null,
+            indicators: { '1m': {}, '1h': {}, '4h': {}, '1d': {} },
+            timeframeData: { '1m': [], '1h': [], '4h': [], '1d': [] },
+            autoRotate: true,
+            showGeometry: false,
+            highlightedCells: new Set(),
+            hoveredCell: null,
+            is3DView: true
+        };
+
+        const DOM = {
+            priceDisplay: document.getElementById('priceDisplay'),
+            currentSymbolDisplay: document.getElementById('currentSymbolDisplay'),
+            gannMathInfo: document.getElementById('gannMathInfo'),
+            symbolSelect: document.getElementById('symbolSelect'),
+            timeframeSelect: document.getElementById('timeframeSelect'),
+            scaleSelect: document.getElementById('scaleSelect'),
+            statusDisplay: document.getElementById('connectionStatus'),
+            tpLong90: document.getElementById('tpLong90'),
+            pLong90: document.getElementById('pLong90'),
+            tpLong180: document.getElementById('tpLong180'),
+            pLong180: document.getElementById('pLong180'),
+            tpLong270: document.getElementById('tpLong270'),
+            pLong270: document.getElementById('pLong270'),
+            tpShort90: document.getElementById('tpShort90'),
+            pShort90: document.getElementById('pShort90'),
+            tpShort180: document.getElementById('tpShort180'),
+            pShort180: document.getElementById('pShort180'),
+            tpShort270: document.getElementById('tpShort270'),
+            pShort270: document.getElementById('pShort270'),
+            rsiValue: document.getElementById('rsiValue'),
+            rsiSignal: document.getElementById('rsiSignal'),
+            macdLine: document.getElementById('macdLine'),
+            cciValue: document.getElementById('cciValue'),
+            aoValue: document.getElementById('aoValue'),
+            atrValue: document.getElementById('atrValue'),
+            slLong: document.getElementById('slLong'),
+            slShort: document.getElementById('slShort'),
+            rrLong: document.getElementById('rrLong'),
+            rrShort: document.getElementById('rrShort'),
+            mtf1h: document.getElementById('mtf1h'),
+            mtf4h: document.getElementById('mtf4h'),
+            mtf1d: document.getElementById('mtf1d'),
+            loadingScreen: document.getElementById('loadingScreen'),
+            rotateBtn: document.getElementById('rotateBtn'),
+            geometryBtn: document.getElementById('geometryBtn'),
+            resetBtn: document.getElementById('resetBtn'),
+            bbSignal: document.getElementById('bbSignal'),
+            adxValue: document.getElementById('adxValue'),
+            ichimokuSignal: document.getElementById('ichimokuSignal'),
+            obvValue: document.getElementById('obvValue'),
+            cmfValue: document.getElementById('cmfValue'),
+            gannFanBtn: document.getElementById('gannFanBtn'),
+            fibTimeBtn: document.getElementById('fibTimeBtn'),
+            fractalEnergyValue: document.getElementById('fractalEnergyValue'),
+            activeTimeframeDisplay: document.getElementById('activeTimeframeDisplay'),
+            viewModeBtn: document.getElementById('viewModeBtn')
+        };
+
+        let scene, camera, camera2D, renderer, gannWheel, particles, geometryLines;
+        let raycaster, mouse;
+
+        function init3DScene() {
+            const canvas = document.getElementById('three-canvas');
+            const container = canvas.parentElement;
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0xffffff, 0.0008);
+            camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 10000);
+            camera.position.set(0, 80, 150);
+            camera.lookAt(0, 0, 0);
+
+            const zoom = 200;
+            camera2D = new THREE.OrthographicCamera(-zoom, zoom, zoom, -zoom, 1, 1000);
+            camera2D.position.set(0, 150, 0);
+            camera2D.lookAt(0, 0, 0);
+
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = false; // Disable shadows for performance
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambientLight);
+
+            const light1 = new THREE.PointLight(0x00f5ff, 1.5, 300);
+            light1.position.set(50, 50, 50);
+            scene.add(light1);
+
+            const light2 = new THREE.PointLight(0xb968ff, 1.5, 300);
+            light2.position.set(-50, 50, -50);
+            scene.add(light2);
+
+            createGannWheel();
+            createParticles();
+            geometryLines = new THREE.Group();
+            scene.add(geometryLines);
+
+            raycaster = new THREE.Raycaster();
+            mouse = new THREE.Vector2();
+
+            setTimeout(() => { DOM.loadingScreen.style.display = 'none'; }, 1000);
+            animate();
+        }
+
+        function createTextSprite(text) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            const fontSize = 32;
+            context.font = `${fontSize}px Arial`;
+            const textWidth = context.measureText(text).width;
+            canvas.width = textWidth;
+            canvas.height = fontSize * 1.2;
+            context.fillStyle = '#ffffff';
+            context.font = `${fontSize}px Arial`;
+            context.fillText(text, 0, fontSize);
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.minFilter = THREE.LinearFilter;
+            const material = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(material);
+            sprite.scale.set(canvas.width / 10, canvas.height / 10, 1);
+            return sprite;
+        }
+
+        function createGannWheel() {
+            gannWheel = new THREE.Group();
+            const size = 19;
+            const cellSize = 5;
+            const matrix = generateSpiralMatrix(size);
+            for (let row = 0; row < size; row++) {
+                for (let col = 0; col < size; col++) {
+                    const value = matrix[row][col];
+                    if (value === 0) continue;
+                    const x = (col - Math.floor(size / 2)) * cellSize;
+                    const z = (row - Math.floor(size / 2)) * cellSize;
+                    let color = 0x1f3f7f;
+                    if (value === 1) color = 0x4a0ffc;
+                    const material = new THREE.MeshPhongMaterial({
+                        color: color,
+                        emissive: color,
+                        emissiveIntensity: 0.2,
+                        shininess: 100
+                    });
+                    const mesh = new THREE.Mesh(new THREE.BoxGeometry(cellSize - 0.5, 0.5, cellSize - 0.5), material);
+                    mesh.position.set(x, 0, z);
+                    mesh.userData = { value: value, originalColor: color };
+                    const textSprite = createTextSprite(value.toString());
+                    textSprite.position.set(x, 0.3, z);
+                    gannWheel.add(textSprite);
+                    gannWheel.add(mesh);
+                }
+            }
+            scene.add(gannWheel);
+        }
+
+        function generateSpiralMatrix(size) {
+            let matrix = Array(size).fill().map(() => Array(size).fill(0));
+            let x = Math.floor(size / 2), y = Math.floor(size / 2);
+            let num = 1, step = 1, dir = 0;
+            matrix[y][x] = num;
+            while (num < size * size) {
+                for (let i = 0; i < 2; i++) {
+                    for (let j = 0; j < step; j++) {
+                        if (num >= size * size) break;
+                        switch (dir) {
+                            case 0: x++; break;
+                            case 1: y--; break;
+                            case 2: x--; break;
+                            case 3: y++; break;
+                        }
+                        num++;
+                        if (y >= 0 && y < size && x >= 0 && x < size) matrix[y][x] = num;
+                    }
+                    dir = (dir + 1) % 4;
+                }
+                step++;
+            }
+            return matrix;
+        }
+
+        function createParticles() {
+            const geometry = new THREE.BufferGeometry();
+            const positions = [];
+            const colors = [];
+            for (let i = 0; i < 500; i++) { // Reduced from 2000 for performance
+                positions.push(400 * Math.random() - 200, 400 * Math.random() - 200, 400 * Math.random() - 200);
+                const color = new THREE.Color().setHSL(0.5 + 0.2 * Math.random(), 0.8, 0.5);
+                colors.push(color.r, color.g, color.b);
+            }
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            const material = new THREE.PointsMaterial({
+                size: 0.8,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.6,
+                blending: THREE.AdditiveBlending
+            });
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+        }
+
+        function updateGeometryLines() {
+            while (geometryLines.children.length > 0) {
+                geometryLines.remove(geometryLines.children[0]);
+            }
+            if (!state.showGeometry) return;
+            const extent = 95;
+            addLine(-extent, 0, 0, extent, 0, 0, 0x4d00f0);
+            addLine(0, 0, -extent, 0, 0, extent, 0x4d00f0);
+            addLine(-extent, 0, -extent, extent, 0, extent, 0x999999);
+            addLine(extent, 0, -extent, -extent, 0, extent, 0x999999);
+        }
+
+        function addLine(x1, y1, z1, x2, y2, z2, color) {
+            const material = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.6, linewidth: 2 });
+            const geometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x1, y1, z1), new THREE.Vector3(x2, y2, z2)]);
+            const line = new THREE.Line(geometry, material);
+            geometryLines.add(line);
+        }
+
+        function highlightCell(price, targets) {
+            const colors = {
+                active: 0x12bc4c,
+                targetUp: 0x4d00f0,
+                targetDown: 0xff6600,
+                targetMajor: 0xff2b32
+            };
+            const currentCell = Math.floor(price / state.priceScale);
+            const targetCells = [
+                { value: Math.floor(targets.tpLong90.rawPrice / state.priceScale), type: 'targetUp' },
+                { value: Math.floor(targets.tpShort90.rawPrice / state.priceScale), type: 'targetDown' },
+                { value: Math.floor(targets.tpLong180.rawPrice / state.priceScale), type: 'targetUp' },
+                { value: Math.floor(targets.tpShort180.rawPrice / state.priceScale), type: 'targetDown' },
+                { value: Math.floor(targets.tpLong270.rawPrice / state.priceScale), type: 'targetMajor' },
+                { value: Math.floor(targets.tpShort270.rawPrice / state.priceScale), type: 'targetMajor' }
+            ];
+            const cellTypes = new Map();
+            cellTypes.set(currentCell, 'active');
+            targetCells.forEach(target => {
+                if (target.value !== currentCell && (!cellTypes.has(target.value) || target.type === 'targetMajor')) {
+                    cellTypes.set(target.value, target.type);
+                }
+            });
+            state.highlightedCells = new Set(cellTypes.keys());
+            gannWheel.children.forEach(child => {
+                if (!(child instanceof THREE.Mesh)) return;
+                const value = child.userData.value;
+                const type = cellTypes.get(value);
+                if (type) {
+                    const color = colors[type];
+                    child.material.color.setHex(color);
+                    child.material.emissive.setHex(color);
+                    child.material.emissiveIntensity = type === 'active' ? 1 : 0.6;
+                    child.scale.set(1, type === 'active' ? 3 : 2, 1);
+                } else {
+                    child.material.color.setHex(child.userData.originalColor);
+                    child.material.emissive.setHex(child.userData.originalColor);
+                    child.material.emissiveIntensity = 0.2;
+                    if (state.hoveredCell && state.hoveredCell !== child) {
+                        child.scale.set(1, 1, 1);
+                    }
+                }
+            });
+        }
+
+        let mouseMoved = false;
+        function checkIntersections() {
+            if (!mouseMoved) return;
+            mouseMoved = false;
+            raycaster.setFromCamera(mouse, state.is3DView ? camera : camera2D);
+            const intersects = raycaster.intersectObjects(gannWheel.children.filter(child => child instanceof THREE.Mesh));
+            if (intersects.length > 0) {
+                const object = intersects[0].object;
+                if (state.hoveredCell && state.hoveredCell !== object && !state.highlightedCells.has(state.hoveredCell.userData.value)) {
+                    state.hoveredCell.scale.y = 1;
+                }
+                state.hoveredCell = object;
+                if (object.scale.y < 1.5) object.scale.y = 1.5;
+            } else if (state.hoveredCell) {
+                if (!state.highlightedCells.has(state.hoveredCell.userData.value)) {
+                    state.hoveredCell.scale.y = 1;
+                }
+                state.hoveredCell = null;
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            checkIntersections();
+            if (state.autoRotate && state.is3DView) gannWheel.rotation.y += 0.002;
+            particles.rotation.y += 0.0005;
+            particles.rotation.x += 0.0003;
+            // Removed sinusoidal light intensity for performance
+            renderer.render(scene, state.is3DView ? camera : camera2D);
+        }
+
+        window.addEventListener('resize', () => {
+            const container = document.getElementById('three-canvas').parentElement;
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+
+        function initBackgroundParticles() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const particles = [];
+            const numParticles = 100;
+            for (let i = 0; i < numParticles; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: 0.5 * (Math.random() - 0.5),
+                    vy: 0.5 * (Math.random() - 0.5),
+                    radius: Math.random() * 2 + 1
+                });
+            }
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(0,245,255,0.5)';
+                    ctx.fill();
+                });
+                particles.forEach((p1, i) => {
+                    particles.slice(i + 1).forEach(p2 => {
+                        const dx = p1.x - p2.x;
+                        const dy = p1.y - p2.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 150) {
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = `rgba(0,245,255,${1 - dist / 150})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    });
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        class GannCalculator {
+            constructor(scale) {
+                this.scale = scale;
+            }
+            calculateGannPosition(price) {
+                const scaled = price / this.scale;
+                const root = Math.sqrt(scaled);
+                const fractional = root - Math.floor(root);
+                return { degree: Math.floor(360 * fractional), root: root.toFixed(4) };
+            }
+            calculateTarget(price, degrees, isLong) {
+                const scaled = price / this.scale;
+                const root = Math.sqrt(scaled);
+                const increment = 2 * (degrees / 360);
+                let newRoot = isLong ? root + increment : Math.max(0.01, root - increment);
+                const targetPrice = Math.pow(newRoot, 2) * this.scale;
+                const percent = 100 * (targetPrice / price - 1);
+                return { rawPrice: targetPrice, percent: percent.toFixed(2) };
+            }
+        }
+
+        class DataEngine {
+            async mockFetchData(symbol, timeframe) {
+                const historySize = CONFIG.TIME_FRAMES[timeframe].historySize;
+                const basePrice = state.currentPrice || (symbol === 'BTCUSDT' ? 68000 : symbol === 'ETHUSDT' ? 3500 : 600);
+                const volatility = symbol === 'BTCUSDT' ? 100 : symbol === 'ETHUSDT' ? 50 : 20;
+                const data = [];
+                let previousClose = basePrice;
+                for (let i = 0; i < historySize; i++) {
+                    let close = previousClose + 2 * volatility * (Math.random() - 0.5);
+                    const open = previousClose;
+                    const high = Math.max(open, close) + (volatility / 4) * Math.random();
+                    const low = Math.min(open, close) - (volatility / 4) * Math.random();
+                    const volume = 10000 + Math.random() * 50000;
+                    data.push({ open, high, low, close, volume });
+                    previousClose = close;
+                }
+                if (data.length > 0) data[historySize - 1].close = basePrice;
+                state.timeframeData[timeframe] = data;
+                return data;
+            }
+
+            calculateSMA(data, period, field = 'close') {
+                if (data.length < period) return [];
+                const smas = [];
+                for (let i = period - 1; i < data.length; i++) {
+                    let sum = 0;
+                    for (let j = 0; j < period; j++) {
+                        sum += data[i - j][field];
+                    }
+                    smas.push(sum / period);
+                }
+                return smas;
+            }
+
+            calculateEMA(data, period, field = 'close') {
+                if (data.length < period) return [];
+                const emas = [];
+                let sma = 0;
+                for (let i = 0; i < period; i++) sma += data[i][field];
+                sma /= period;
+                emas.push(sma);
+                const multiplier = 2 / (period + 1);
+                for (let i = period; i < data.length; i++) {
+                    const ema = (data[i][field] - emas[emas.length - 1]) * multiplier + emas[emas.length - 1];
+                    emas.push(ema);
+                }
+                return emas;
+            }
+
+            calculateRSI(data, period = CONFIG.RSI_PERIOD) {
+                if (data.length < period) return null;
+                const closes = data.map(candle => candle.close);
+                let avgGain = 0, avgLoss = 0;
+                for (let i = 1; i <= period; i++) {
+                    const change = closes[i] - closes[i - 1];
+                    if (change > 0) avgGain += change;
+                    else avgLoss += Math.abs(change);
+                }
+                avgGain /= period;
+                avgLoss /= period;
+                for (let i = period + 1; i < closes.length; i++) {
+                    const change = closes[i] - closes[i - 1];
+                    const gain = Math.max(0, change);
+                    const loss = Math.abs(Math.min(0, change));
+                    avgGain = (avgGain * (period - 1) + gain) / period;
+                    avgLoss = (avgLoss * (period - 1) + loss) / period;
+                }
+                if (avgLoss === 0) return 100;
+                const rs = avgGain / avgLoss;
+                return 100 - 100 / (1 + rs);
+            }
+
+            calculateATR(data, period = CONFIG.ATR_PERIOD) {
+                if (data.length < period) return null;
+                const trs = [];
+                for (let i = 1; i < data.length; i++) {
+                    const high = data[i].high;
+                    const low = data[i].low;
+                    const prevClose = data[i - 1].close;
+                    trs.push(Math.max(high - low, Math.abs(high - prevClose), Math.abs(low - prevClose)));
+                }
+                if (trs.length < period) return null;
+                let atr = trs.slice(0, period).reduce((sum, val) => sum + val, 0) / period;
+                for (let i = period; i < trs.length; i++) {
+                    atr = (atr * (period - 1) + trs[i]) / period;
+                }
+                return atr;
+            }
+
+            calculateMACD(data) {
+                const fastEMA = this.calculateEMA(data, CONFIG.MACD_FAST);
+                const slowEMA = this.calculateEMA(data, CONFIG.MACD_SLOW);
+                if (fastEMA.length === 0 || slowEMA.length === 0) return null;
+                return fastEMA[fastEMA.length - 1] - slowEMA[slowEMA.length - 1];
+            }
+
+            calculateCCI(data, period = CONFIG.CCI_PERIOD) {
+                if (data.length < period) return null;
+                const typicalPrices = data.map(candle => (candle.high + candle.low + candle.close) / 3);
+                const recentTP = typicalPrices.slice(-period);
+                const smaTP = recentTP.reduce((sum, val) => sum + val, 0) / period;
+                const meanDev = recentTP.reduce((sum, val) => sum + Math.abs(val - smaTP), 0) / period;
+                if (meanDev === 0) return 0;
+                const currentTP = typicalPrices[typicalPrices.length - 1];
+                return (currentTP - smaTP) / (0.015 * meanDev);
+            }
+
+            calculateAO(data) {
+                const medians = data.map(candle => (candle.high + candle.low) / 2);
+                const pseudoData = medians.map(median => ({ close: median, open: median, high: median, low: median, volume: 0 }));
+                const fastSMA = this.calculateSMA(pseudoData, CONFIG.AO_FAST);
+                const slowSMA = this.calculateSMA(pseudoData, CONFIG.AO_SLOW);
+                if (fastSMA.length === 0 || slowSMA.length === 0) return null;
+                return fastSMA[fastSMA.length - 1] - slowSMA[slowSMA.length - 1];
+            }
+
+            calculateBB(data, period = CONFIG.BB_PERIOD, devs = CONFIG.BB_DEVS) {
+                if (data.length < period) return null;
+                const closes = data.map(candle => candle.close);
+                const recentCloses = closes.slice(-period);
+                const sma = recentCloses.reduce((sum, val) => sum + val, 0) / period;
+                const variance = recentCloses.reduce((sum, val) => sum + Math.pow(val - sma, 2), 0) / period;
+                const stdDev = Math.sqrt(variance);
+                const upper = sma + stdDev * devs;
+                const lower = sma - stdDev * devs;
+                const currentClose = data[data.length - 1].close;
+                let signal = 'NEUTRAL';
+                if (currentClose > upper) signal = 'OVERBOUGHT';
+                else if (currentClose < lower) signal = 'OVERSOLD';
+                return { sma, upper, lower, signal };
+            }
+
+            calculateADX(data) {
+                const value = 10 + Math.random() * 40;
+                const direction = value > 40 ? 'VERY STRONG' : value > 25 ? 'STRONG' : 'WEAK';
+                return { value, direction };
+            }
+
+            calculateIchimoku(data) {
+                const currentClose = data[data.length - 1].close;
+                const sma52 = this.calculateSMA(data, 52).slice(-1)[0] || currentClose;
+                const sma26 = this.calculateSMA(data, 26).slice(-1)[0] || currentClose;
+                const senkouA = sma52 * 1.01;
+                const senkouB = sma26 * 0.99;
+                let signal = 'NEUTRAL';
+                if (currentClose > senkouA) signal = 'BULLISH CLOUD';
+                else if (currentClose < senkouB) signal = 'BEARISH CLOUD';
+                return signal;
+            }
+
+            calculateVolumeIndicators(data) {
+                let obv = 0;
+                for (let i = 1; i < data.length; i++) {
+                    if (data[i].close > data[i - 1].close) obv += data[i].volume;
+                    else if (data[i].close < data[i - 1].close) obv -= data[i].volume;
+                }
+                const cmf = 2 * Math.random() - 1;
+                return { obv, cmf };
+            }
+
+            runAllIndicators(timeframe) {
+                const data = state.timeframeData[timeframe];
+                const volumeIndicators = this.calculateVolumeIndicators(data);
+                state.indicators[timeframe] = {
+                    rsi: this.calculateRSI(data),
+                    atr: this.calculateATR(data),
+                    macd: this.calculateMACD(data),
+                    cci: this.calculateCCI(data),
+                    ao: this.calculateAO(data),
+                    bb: this.calculateBB(data),
+                    adx: this.calculateADX(data),
+                    ichimoku: this.calculateIchimoku(data),
+                    obv: volumeIndicators.obv,
+                    cmf: volumeIndicators.cmf,
+                    fractalEnergy: Math.random() * 100
+                };
+            }
+        }
+
+        function connectWebSocket(symbol) {
+            if (state.ws) state.ws.close();
+            state.currentSymbol = symbol;
+            DOM.currentSymbolDisplay.textContent = `${symbol} Live Price`;
+            const stream = `${symbol.toLowerCase()}@trade`;
+            state.ws = new WebSocket(CONFIG.BINANCE_WS_URL + stream);
+            state.ws.onopen = () => {
+                DOM.statusDisplay.textContent = `🟢 Connected to ${symbol}`;
+                DOM.statusDisplay.style.color = 'var(--accent-green)';
+                updateIndicatorsForTimeframe(state.activeTimeframe, true);
+            };
+            state.ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.p) updateUI(parseFloat(data.p));
+            };
+            state.ws.onerror = () => {
+                DOM.statusDisplay.textContent = '🔴 Connection Error';
+                DOM.statusDisplay.style.color = 'var(--accent-red)';
+            };
+            state.ws.onclose = () => {
+                DOM.statusDisplay.textContent = '🟡 Reconnecting...';
+                setTimeout(() => connectWebSocket(state.currentSymbol), 3000);
+            };
+        }
+
+        const gann = new GannCalculator(state.priceScale);
+        const dataEngine = new DataEngine();
+
+        async function updateIndicatorsForTimeframe(timeframe, fetchAll = false) {
+            state.activeTimeframe = timeframe;
+            DOM.activeTimeframeDisplay.textContent = timeframe.toUpperCase();
+            if (fetchAll) {
+                for (const tf of Object.keys(CONFIG.TIME_FRAMES)) {
+                    await dataEngine.mockFetchData(state.currentSymbol, tf);
+                    dataEngine.runAllIndicators(tf);
+                }
+            } else if (state.timeframeData[timeframe].length === 0) {
+                await dataEngine.mockFetchData(state.currentSymbol, timeframe);
+                dataEngine.runAllIndicators(timeframe);
+            }
+            updateMainIndicatorUI(timeframe);
+            updateMTFSummary();
+            if (state.currentPrice > 0) updateGannTargets(state.currentPrice);
+        }
+
+        function updateUI(price) {
+            state.currentPrice = price;
+            const formatPrice = (p) => state.currentSymbol === 'BTCUSDT' ? p.toFixed(0) : p.toFixed(2);
+            const lastClose = state.timeframeData[state.activeTimeframe].length > 0 ?
+                state.timeframeData[state.activeTimeframe][state.timeframeData[state.activeTimeframe].length - 1].close : price;
+            if (price > lastClose) DOM.priceDisplay.style.color = 'var(--accent-green)';
+            else if (price < lastClose) DOM.priceDisplay.style.color = 'var(--accent-red)';
+            else DOM.priceDisplay.style.color = 'transparent';
+            DOM.priceDisplay.textContent = `$${formatPrice(price)}`;
+            if (state.timeframeData[state.activeTimeframe].length > 0) {
+                state.timeframeData[state.activeTimeframe][state.timeframeData[state.activeTimeframe].length - 1].close = price;
+                dataEngine.runAllIndicators(state.activeTimeframe);
+                updateMainIndicatorUI(state.activeTimeframe);
+            }
+            updateGannTargets(price);
+        }
+
+        function updateGannTargets(price) {
+            const formatPrice = (p) => state.currentSymbol === 'BTCUSDT' ? p.toFixed(0) : p.toFixed(2);
+            const { degree, root } = gann.calculateGannPosition(price);
+            DOM.gannMathInfo.textContent = `Degree: ${degree}° | Root: ${root}`;
+            const targets = {
+                tpLong90: gann.calculateTarget(price, 90, true),
+                tpLong180: gann.calculateTarget(price, 180, true),
+                tpLong270: gann.calculateTarget(price, 270, true),
+                tpShort90: gann.calculateTarget(price, 90, false),
+                tpShort180: gann.calculateTarget(price, 180, false),
+                tpShort270: gann.calculateTarget(price, 270, false)
+            };
+            DOM.tpLong90.textContent = `$${formatPrice(targets.tpLong90.rawPrice)}`;
+            DOM.pLong90.textContent = `(+${targets.tpLong90.percent}%)`;
+            DOM.tpLong180.textContent = `$${formatPrice(targets.tpLong180.rawPrice)}`;
+            DOM.pLong180.textContent = `(+${targets.tpLong180.percent}%)`;
+            DOM.tpLong270.textContent = `$${formatPrice(targets.tpLong270.rawPrice)}`;
+            DOM.pLong270.textContent = `(+${targets.tpLong270.percent}%)`;
+            DOM.tpShort90.textContent = `$${formatPrice(targets.tpShort90.rawPrice)}`;
+            DOM.pShort90.textContent = `(${targets.tpShort90.percent}%)`;
+            DOM.tpShort180.textContent = `$${formatPrice(targets.tpShort180.rawPrice)}`;
+            DOM.pShort180.textContent = `(${targets.tpShort180.percent}%)`;
+            DOM.tpShort270.textContent = `$${formatPrice(targets.tpShort270.rawPrice)}`;
+            DOM.pShort270.textContent = `(${targets.tpShort270.percent}%)`;
+            highlightCell(price, targets);
+            const indicators = state.indicators[state.activeTimeframe];
+            if (indicators.atr) {
+                const slLongPrice = price - indicators.atr * CONFIG.ATR_MULTIPLIER;
+                const slShortPrice = price + indicators.atr * CONFIG.ATR_MULTIPLIER;
+                DOM.slLong.textContent = `$${formatPrice(slLongPrice)}`;
+                DOM.slShort.textContent = `$${formatPrice(slShortPrice)}`;
+                const rrLong = Math.abs(targets.tpLong90.rawPrice - price) / Math.abs(price - slLongPrice);
+                const rrShort = Math.abs(targets.tpShort90.rawPrice - price) / Math.abs(slShortPrice - price);
+                DOM.rrLong.textContent = `${rrLong.toFixed(2)}:1`;
+                DOM.rrShort.textContent = `${rrShort.toFixed(2)}:1`;
+            }
+        }
+
+        function updateMainIndicatorUI(timeframe) {
+            const indicators = state.indicators[timeframe];
+            const formatValue = (val) => val === null || isNaN(val) ? '--' : val.toFixed(2);
+            DOM.rsiValue.textContent = formatValue(indicators.rsi);
+            DOM.rsiSignal.className = 'badge';
+            if (indicators.rsi > 70) {
+                DOM.rsiSignal.classList.add('badge-sell');
+                DOM.rsiSignal.textContent = 'SELL';
+            } else if (indicators.rsi < 30) {
+                DOM.rsiSignal.classList.add('badge-buy');
+                DOM.rsiSignal.textContent = 'BUY';
+            } else {
+                DOM.rsiSignal.classList.add('badge-neutral');
+                DOM.rsiSignal.textContent = 'NEUTRAL';
+            }
+            DOM.macdLine.textContent = formatValue(indicators.macd);
+            DOM.cciValue.textContent = formatValue(indicators.cci);
+            DOM.aoValue.textContent = formatValue(indicators.ao);
+            if (indicators.bb) {
+                DOM.bbSignal.textContent = indicators.bb.signal;
+                DOM.bbSignal.className = 'badge';
+                if (indicators.bb.signal === 'OVERBOUGHT') DOM.bbSignal.classList.add('badge-sell');
+                else if (indicators.bb.signal === 'OVERSOLD') DOM.bbSignal.classList.add('badge-buy');
+                else DOM.bbSignal.classList.add('badge-neutral');
+            } else {
+                DOM.bbSignal.textContent = '--';
+            }
+            if (indicators.adx) {
+                DOM.adxValue.textContent = `${formatValue(indicators.adx.value)} (${indicators.adx.direction})`;
+            } else {
+                DOM.adxValue.textContent = '--';
+            }
+            DOM.ichimokuSignal.textContent = indicators.ichimoku || '--';
+            DOM.obvValue.textContent = indicators.obv ? indicators.obv.toFixed(0) : '--';
+            let cmf = indicators.cmf || 0;
+            DOM.cmfValue.textContent = formatValue(cmf);
+            if (cmf > 0.1) DOM.cmfValue.style.color = 'var(--accent-green)';
+            else if (cmf < -0.1) DOM.cmfValue.style.color = 'var(--accent-red)';
+            else DOM.cmfValue.style.color = 'var(--text-color)';
+            DOM.atrValue.textContent = formatValue(indicators.atr);
+            DOM.fractalEnergyValue.textContent = indicators.fractalEnergy ? indicators.fractalEnergy.toFixed(2) + '%' : '--';
+        }
+
+        function updateMTFSummary() {
+            const getMTFSignal = (tf) => {
+                const ind = state.indicators[tf];
+                if (!ind.rsi || ind.ao === null || isNaN(ind.ao)) return '---';
+                let signal = '';
+                if (ind.rsi > 60) signal += '🔴';
+                else if (ind.rsi < 40) signal += '🟢';
+                else signal += '🟡';
+                if (ind.ao > 0) signal += '↑';
+                else if (ind.ao < 0) signal += '↓';
+                return signal;
+            };
+            DOM.mtf1h.textContent = getMTFSignal('1h');
+            DOM.mtf4h.textContent = getMTFSignal('4h');
+            DOM.mtf1d.textContent = getMTFSignal('1d');
+        }
+
+        function toggleViewMode() {
+            state.is3DView = !state.is3DView;
+            if (state.is3DView) {
+                DOM.viewModeBtn.textContent = '🌐 3D View';
+                DOM.viewModeBtn.classList.add('active');
+                state.autoRotate = true;
+                DOM.rotateBtn.classList.add('active');
+            } else {
+                DOM.viewModeBtn.textContent = '🗺️ 2D View';
+                DOM.viewModeBtn.classList.remove('active');
+                state.autoRotate = false;
+                DOM.rotateBtn.classList.remove('active');
+            }
+        }
+
+        function setupEventListeners() {
+            DOM.symbolSelect.addEventListener('change', (e) => {
+                const symbol = e.target.value;
+                if (symbol === 'BTCUSDT') DOM.scaleSelect.value = '100';
+                else DOM.scaleSelect.value = '10';
+                state.priceScale = parseInt(DOM.scaleSelect.value);
+                gann.scale = state.priceScale;
+                connectWebSocket(symbol);
+            });
+            DOM.timeframeSelect.addEventListener('change', (e) => {
+                updateIndicatorsForTimeframe(e.target.value, true);
+            });
+            DOM.scaleSelect.addEventListener('change', (e) => {
+                state.priceScale = parseInt(e.target.value);
+                gann.scale = state.priceScale;
+                updateIndicatorsForTimeframe(state.activeTimeframe, true);
+            });
+            DOM.rotateBtn.addEventListener('click', () => {
+                state.autoRotate = !state.autoRotate;
+                DOM.rotateBtn.classList.toggle('active');
+            });
+            DOM.geometryBtn.addEventListener('click', () => {
+                state.showGeometry = !state.showGeometry;
+                DOM.geometryBtn.classList.toggle('active');
+                updateGeometryLines();
+            });
+            DOM.resetBtn.addEventListener('click', () => {
+                camera.position.set(0, 80, 150);
+                camera.lookAt(0, 0, 0);
+                gannWheel.rotation.set(0, 0, 0);
+            });
+            DOM.gannFanBtn.addEventListener('click', () => {
+                alert("Gann Fan Projection Enabled! (Conceptual 3D fan overlay would be implemented here)");
+                DOM.gannFanBtn.textContent = 'Active';
+                setTimeout(() => DOM.gannFanBtn.textContent = 'Enable', 3000);
+            });
+            DOM.fibTimeBtn.addEventListener('click', () => {
+                alert("Fibonacci Time Zone Calculated! (Conceptual vertical lines in 3D would appear here)");
+                DOM.fibTimeBtn.textContent = 'Active';
+                setTimeout(() => DOM.fibTimeBtn.textContent = 'Calculate', 3000);
+            });
+            DOM.viewModeBtn.addEventListener('click', toggleViewMode);
+            const canvas = document.getElementById('three-canvas');
+            canvas.addEventListener('mousemove', (event) => {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = (event.clientX - rect.left) / rect.width * 2 - 1;
+                mouse.y = -(event.clientY - rect.top) / rect.height * 2 + 1;
+                mouseMoved = true;
+            });
+        }
+
+        function initialize() {
+            initBackgroundParticles();
+            init3DScene();
+            setupEventListeners();
+            updateIndicatorsForTimeframe('4h', true).then(() => {
+                connectWebSocket(DOM.symbolSelect.value);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initialize);
+    </script>
+</body>
+</html>
